@@ -1,5 +1,3 @@
-"use client";
-
 import { Menu, Bell, LogOut } from "lucide-react";
 import {
   DropdownMenu,
@@ -23,27 +21,16 @@ export function Header({ onMenuClick }: HeaderProps) {
       <div className="w-full flex h-16 items-center justify-between px-4 overflow-x-hidden">
         {/* Left side - Menu button and Logo */}
         <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={onMenuClick}
-          >
+          <Button variant="ghost" size="icon" className="md:hidden" onClick={onMenuClick}>
             <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle menu</span>
           </Button>
 
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <img
-              src="/src/assets/full-color-favicon.svg"
-              alt="MontyCloud Logo"
-              className="h-8 w-8"
-            />
+            <img src="/src/assets/full-color-favicon.svg" alt="MontyCloud Logo" className="h-8 w-8" />
             <div className="flex flex-col">
-              <span className="text-xl font-extralight text-foreground">
-                MontyCloud
-              </span>
+              <span className="text-xl font-extralight text-foreground">MontyCloud</span>
             </div>
           </div>
         </div>
@@ -74,9 +61,7 @@ export function Header({ onMenuClick }: HeaderProps) {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">John Doe</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    john.doe@example.com
-                  </p>
+                  <p className="text-xs leading-none text-muted-foreground">john.doe@example.com</p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

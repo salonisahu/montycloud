@@ -25,42 +25,6 @@ export const navigationItems: NavigationItem[] = [
     enabled: true,
   },
   {
-    name: "Databases",
-    href: "/databases",
-    icon: "Database",
-    enabled: false,
-  },
-  {
-    name: "Security",
-    href: "/security",
-    icon: "Shield",
-    enabled: false,
-  },
-  {
-    name: "Performance",
-    href: "/performance",
-    icon: "Zap",
-    enabled: false,
-  },
-  {
-    name: "CDN",
-    href: "/cdn",
-    icon: "Globe",
-    enabled: false,
-  },
-  {
-    name: "Users",
-    href: "/users",
-    icon: "Users",
-    enabled: false,
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: "Settings",
-    enabled: true,
-  },
-  {
     name: "Profile",
     href: "/profile",
     icon: "Users",

@@ -1,5 +1,3 @@
-"use client";
-
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,10 +17,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: "name",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -33,10 +28,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: "description",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Description
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -47,10 +39,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: "category",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Category
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -61,10 +50,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
     accessorKey: "date",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -78,13 +64,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       const amount = row.getValue("amount") as string;
       return (
         <div className="text-right font-medium">
-          <span
-            className={
-              amount.startsWith("+") ? "text-green-600" : "text-red-600"
-            }
-          >
-            {amount}
-          </span>
+          <span className={amount.startsWith("+") ? "text-green-600" : "text-red-600"}>{amount}</span>
         </div>
       );
     },

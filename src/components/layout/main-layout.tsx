@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useCallback } from "react";
 import { Header } from "./header";
 import { Sidebar } from "./sidebar";
@@ -12,25 +10,14 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  const toggleSidebar = useCallback(
-    () => setSidebarOpen(!sidebarOpen),
-    [sidebarOpen]
-  );
+  const toggleSidebar = useCallback(() => setSidebarOpen(!sidebarOpen), [sidebarOpen]);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
-  const toggleSidebarCollapse = useCallback(
-    () => setSidebarCollapsed(!sidebarCollapsed),
-    [sidebarCollapsed]
-  );
+  const toggleSidebarCollapse = useCallback(() => setSidebarCollapsed(!sidebarCollapsed), [sidebarCollapsed]);
 
   return (
     <div className="min-h-screen bg-background">
       <Header onMenuClick={toggleSidebar} />
-      <Sidebar
-        isOpen={sidebarOpen}
-        onClose={closeSidebar}
-        isCollapsed={sidebarCollapsed}
-        onToggleCollapse={toggleSidebarCollapse}
-      />
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} isCollapsed={sidebarCollapsed} onToggleCollapse={toggleSidebarCollapse} />
 
       {/* Main content area */}
       <main

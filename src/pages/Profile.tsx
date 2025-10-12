@@ -1,23 +1,15 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, MapPin, Calendar, Shield, Key } from "lucide-react";
+import { Mail, Phone, MapPin, Shield, Key } from "lucide-react";
 
 export function Profile() {
   return (
     <div className="space-y-6 bg-background min-h-screen">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-foreground">Profile</h1>
-        <p className="text-muted-foreground">
-          Manage your account information and preferences
-        </p>
+        <p className="text-muted-foreground">Manage your account information and preferences</p>
       </div>
 
       {/* Profile Header */}
@@ -41,12 +33,10 @@ export function Profile() {
       </Card>
 
       {/* Personal Information */}
-      <Card className="bg-accent">
+      <Card className="bg-card">
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
-          <CardDescription>
-            Update your personal details and contact information
-          </CardDescription>
+          <CardDescription>Update your personal details and contact information</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -54,13 +44,6 @@ export function Profile() {
               <label className="text-sm font-medium">Full Name</label>
               <div className="flex items-center justify-between">
                 <span className="text-sm truncate">John Doe</span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="ml-2 flex-shrink-0"
-                >
-                  Edit
-                </Button>
               </div>
             </div>
             <div className="space-y-2">
@@ -70,13 +53,6 @@ export function Profile() {
                   <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                   <span className="text-sm truncate">john.doe@example.com</span>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="ml-2 flex-shrink-0"
-                >
-                  Edit
-                </Button>
               </div>
             </div>
             <div className="space-y-2">
@@ -86,13 +62,6 @@ export function Profile() {
                   <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                   <span className="text-sm truncate">+1 (555) 123-4567</span>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="ml-2 flex-shrink-0"
-                >
-                  Edit
-                </Button>
               </div>
             </div>
             <div className="space-y-2">
@@ -102,27 +71,6 @@ export function Profile() {
                   <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                   <span className="text-sm truncate">San Francisco, CA</span>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="ml-2 flex-shrink-0"
-                >
-                  Edit
-                </Button>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Member Since</label>
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">January 2023</span>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Last Login</label>
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">Today, 2:30 PM</span>
               </div>
             </div>
           </div>
@@ -133,9 +81,7 @@ export function Profile() {
       <Card className="bg-secondary">
         <CardHeader>
           <CardTitle>Security Settings</CardTitle>
-          <CardDescription>
-            Manage your account security and authentication
-          </CardDescription>
+          <CardDescription>Manage your account security and authentication</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
@@ -143,9 +89,7 @@ export function Profile() {
               <Shield className="h-5 w-5 text-muted-foreground" />
               <div>
                 <p className="font-medium">Two-Factor Authentication</p>
-                <p className="text-sm text-muted-foreground">
-                  Add an extra layer of security to your account
-                </p>
+                <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
               </div>
             </div>
             <Button variant="outline">Enable</Button>
@@ -155,9 +99,7 @@ export function Profile() {
               <Key className="h-5 w-5 text-muted-foreground" />
               <div>
                 <p className="font-medium">Change Password</p>
-                <p className="text-sm text-muted-foreground">
-                  Update your account password
-                </p>
+                <p className="text-sm text-muted-foreground">Update your account password</p>
               </div>
             </div>
             <Button variant="outline">Change</Button>
@@ -169,26 +111,13 @@ export function Profile() {
       <Card>
         <CardHeader>
           <CardTitle>Account Actions</CardTitle>
-          <CardDescription>
-            Manage your account preferences and data
-          </CardDescription>
+          <CardDescription>Manage your account preferences and data</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Download Data</p>
-              <p className="text-sm text-muted-foreground">
-                Download a copy of your account data
-              </p>
-            </div>
-            <Button variant="outline">Download</Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
               <p className="font-medium text-destructive">Delete Account</p>
-              <p className="text-sm text-muted-foreground">
-                Permanently delete your account and all data
-              </p>
+              <p className="text-sm text-muted-foreground">Permanently delete your account and all data</p>
             </div>
             <Button variant="destructive">Delete</Button>
           </div>

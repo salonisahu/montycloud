@@ -1,5 +1,3 @@
-"use client";
-
 import { BaseChart } from "./BaseChart";
 
 interface BubbleChartProps {
@@ -19,21 +17,6 @@ interface BubbleChartProps {
   height?: number;
 }
 
-export function BubbleChart({
-  data,
-  options,
-  className,
-  width,
-  height,
-}: BubbleChartProps) {
-  return (
-    <BaseChart
-      type="bubble"
-      data={data}
-      options={options}
-      className={className}
-      width={width}
-      height={height}
-    />
-  );
+export function BubbleChart({ data, options, className, width, height }: BubbleChartProps) {
+  return <BaseChart type="bubble" data={data} options={options} className={className} width={width} height={height} />;
 }

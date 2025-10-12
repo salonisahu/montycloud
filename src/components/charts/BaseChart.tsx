@@ -1,4 +1,3 @@
-"use client";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,29 +14,10 @@ import {
 import { Chart } from "react-chartjs-2";
 
 // Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  RadialLinearScale
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
 interface BaseChartProps {
-  type:
-    | "bar"
-    | "line"
-    | "pie"
-    | "doughnut"
-    | "polarArea"
-    | "radar"
-    | "scatter"
-    | "bubble";
+  type: "bar" | "line" | "pie" | "doughnut" | "polarArea" | "radar" | "scatter" | "bubble";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,14 +27,7 @@ interface BaseChartProps {
   height?: number;
 }
 
-export function BaseChart({
-  type,
-  data,
-  options,
-  className = "",
-  width,
-  height,
-}: BaseChartProps) {
+export function BaseChart({ type, data, options, className = "", width, height }: BaseChartProps) {
   const defaultOptions = {
     responsive: true,
     maintainAspectRatio: false,

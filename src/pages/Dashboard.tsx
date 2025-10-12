@@ -1,219 +1,321 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { transactionColumns } from "@/components/transaction-columns";
-import { dashboardStats, recentTransactions } from "@/utils/constant/dashboard";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
+import { BarChart, LineChart, PieChart, DoughnutChart, PolarAreaChart, RadarChart, ScatterChart, BubbleChart } from "@/components/charts";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import { AddNewTransaction } from "@/components/AddNewTransaction";
-import { toast } from "sonner";
-import {
-  Info,
-  RefreshCw,
-  Download,
-  Share,
-  AlertTriangle,
-  XCircle,
-  Plus,
-} from "lucide-react";
+  cpuUsageData,
+  memoryUsageData,
+  diskUsageData,
+  networkTrafficData,
+  performanceData,
+  errorResponseData,
+  resourceUtilizationData,
+  systemLoadData,
+} from "@/constants/monitoring";
 
-export default function DashboardPage() {
-  const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false);
-
-  const handleOpenAddTransaction = () => {
-    setIsAddTransactionOpen(true);
-  };
-
-  const handleCloseAddTransaction = () => {
-    setIsAddTransactionOpen(false);
-  };
-
+const Dashboard = () => {
   return (
     <div className="space-y-6 bg-background min-h-screen">
-      {/* Page header */}
       <div className="space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div>
-            <h1 className="text-hero">Dashboard</h1>
-            <p className="text-secondary">Overview of your financial status</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="btn-success"
-              onClick={() => {
-                toast.success("Dashboard data refreshed!");
-              }}
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Success</span>
-              <span className="sm:hidden">Success</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-accent hover:bg-accent/80 text-accent-foreground border-border hover:border-border/80"
-              onClick={() => {
-                toast.info("Exporting dashboard data...");
-                setTimeout(() => {
-                  toast.success("Dashboard exported successfully!");
-                }, 1500);
-              }}
-            >
-              <Download className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Info</span>
-              <span className="sm:hidden">Info</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-secondary hover:bg-secondary/80 text-secondary-foreground border-border hover:border-border/80"
-              onClick={() => {
-                toast("Dashboard shared with team members!");
-              }}
-            >
-              <Share className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Default</span>
-              <span className="sm:hidden">Default</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="btn-warning"
-              onClick={() => {
-                toast.warning("Low balance alert!", {
-                  description: "Your account balance is below $1000",
-                });
-              }}
-            >
-              <AlertTriangle className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Warning</span>
-              <span className="sm:hidden">Warning</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="btn-error"
-              onClick={() => {
-                toast.error("Transaction failed!", {
-                  description: "Unable to process payment. Please try again.",
-                });
-              }}
-            >
-              <XCircle className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Error</span>
-              <span className="sm:hidden">Error</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Text Showcase Section */}
-      <div className="space-y-4 p-6 bg-card rounded-lg border">
-        <h2 className="text-primary">Text Utilities Showcase</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <h3 className="text-hero-light">Hero Light</h3>
-            <p className="text-primary">Primary Text</p>
-            <p className="text-secondary">Secondary Text</p>
-            <p className="text-muted">Muted Text</p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-accent">Accent Text</p>
-            <p className="text-success">Success Text</p>
-            <p className="text-warning">Warning Text</p>
-            <p className="text-error">Error Text</p>
-            <p className="text-info">Info Text</p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-xs">Extra Small Text</p>
-            <p className="text-sm">Small Text</p>
-            <p className="text-base">Base Text</p>
-            <p className="text-lg">Large Text</p>
-            <p className="text-xl">Extra Large Text</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 rounded-lg">
-        {dashboardStats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <div className="flex items-center gap-2">
-                  <CardTitle>{stat.title}</CardTitle>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="max-w-xs">
-                        {stat.title === "Total Balance" &&
-                          "Your current account balance including all assets and liabilities"}
-                        {stat.title === "Total Expenses" &&
-                          "Total amount spent this month across all categories"}
-                        {stat.title === "Total Income" &&
-                          "Total income received this month from all sources"}
-                        {stat.title === "Active Accounts" &&
-                          "Number of active financial accounts linked to your profile"}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-                <Icon className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">
-                  {stat.description}
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">System Monitoring</h1>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info className="h-5 w-5 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="max-w-xs">
+                  Real-time system monitoring with interactive charts showing CPU, memory, disk usage, and network performance metrics.
                 </p>
-              </CardContent>
-            </Card>
-          );
-        })}
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+        <p className="text-muted-foreground">Real-time monitoring and analytics</p>
       </div>
 
-      {/* Recent transactions section */}
-      <Card className="gap-2">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <CardTitle>Recent Transactions</CardTitle>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="max-w-xs">
-                    View and manage your recent financial transactions. Use the
-                    search and pagination to find specific transactions.
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-            <Button size="sm" onClick={handleOpenAddTransaction}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Transaction
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <DataTable columns={transactionColumns} data={recentTransactions} />
-        </CardContent>
-      </Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 rounded-lg">
+        <Card>
+          <CardHeader>
+            <CardTitle>CPU Usage</CardTitle>
+            <CardDescription>Current CPU utilization</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">45%</div>
+            <p className="text-xs text-muted-foreground">Normal</p>
+          </CardContent>
+        </Card>
 
-      {/* Add New Transaction Dialog */}
-      <AddNewTransaction
-        isOpen={isAddTransactionOpen}
-        onClose={handleCloseAddTransaction}
-      />
+        <Card>
+          <CardHeader>
+            <CardTitle>Memory Usage</CardTitle>
+            <CardDescription>RAM utilization</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-yellow-600">78%</div>
+            <p className="text-xs text-muted-foreground">High</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Network I/O</CardTitle>
+            <CardDescription>Network traffic</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">2.4 GB/s</div>
+            <p className="text-xs text-muted-foreground">Active</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Disk Usage</CardTitle>
+            <CardDescription>Storage utilization</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-orange-600">62%</div>
+            <p className="text-xs text-muted-foreground">Moderate</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid gap-6 md:grid-cols-2 rounded-lg">
+        {/* CPU and Memory Usage Line Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>CPU & Memory Usage Over Time</CardTitle>
+            <CardDescription>24-hour CPU and memory utilization trends</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <LineChart
+                data={cpuUsageData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      max: 100,
+                      ticks: {
+                        callback: function (value: unknown) {
+                          return value + "%";
+                        },
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Memory Usage Bar Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Memory Usage by Service</CardTitle>
+            <CardDescription>Current memory allocation</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <BarChart
+                data={memoryUsageData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      ticks: {
+                        callback: function (value: unknown) {
+                          return value + " GB";
+                        },
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Disk Usage Doughnut Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Disk Usage by Partition</CardTitle>
+            <CardDescription>Storage distribution across partitions</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <DoughnutChart
+                data={diskUsageData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Network Traffic Pie Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Network Traffic by Protocol</CardTitle>
+            <CardDescription>Traffic distribution by protocol type</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <PieChart
+                data={networkTrafficData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Performance Radar Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>System Performance Metrics</CardTitle>
+            <CardDescription>Multi-dimensional performance analysis</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <RadarChart
+                data={performanceData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    r: {
+                      beginAtZero: true,
+                      max: 100,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* System Load Polar Area Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>System Load Distribution</CardTitle>
+            <CardDescription>Load distribution across system components</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <PolarAreaChart
+                data={systemLoadData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Error Rate vs Response Time Scatter Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Error Rate vs Response Time</CardTitle>
+            <CardDescription>Correlation between response time and error rate</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <ScatterChart
+                data={errorResponseData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    x: {
+                      title: {
+                        display: true,
+                        text: "Response Time (ms)",
+                      },
+                    },
+                    y: {
+                      title: {
+                        display: true,
+                        text: "Error Rate (%)",
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Resource Utilization Bubble Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Resource Utilization</CardTitle>
+            <CardDescription>CPU, Memory, and Load correlation</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <BubbleChart
+                data={resourceUtilizationData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    x: {
+                      title: {
+                        display: true,
+                        text: "CPU Usage",
+                      },
+                    },
+                    y: {
+                      title: {
+                        display: true,
+                        text: "Memory Usage",
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
-}
+};
+
+export default Dashboard;

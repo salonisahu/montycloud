@@ -1,5 +1,3 @@
-"use client";
-
 import { BaseChart } from "./BaseChart";
 
 interface ScatterChartProps {
@@ -18,21 +16,6 @@ interface ScatterChartProps {
   height?: number;
 }
 
-export function ScatterChart({
-  data,
-  options,
-  className,
-  width,
-  height,
-}: ScatterChartProps) {
-  return (
-    <BaseChart
-      type="scatter"
-      data={data}
-      options={options}
-      className={className}
-      width={width}
-      height={height}
-    />
-  );
+export function ScatterChart({ data, options, className, width, height }: ScatterChartProps) {
+  return <BaseChart type="scatter" data={data} options={options} className={className} width={width} height={height} />;
 }

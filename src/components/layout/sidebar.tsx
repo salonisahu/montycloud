@@ -1,19 +1,5 @@
-"use client";
-
 import { Link, useLocation } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Server,
-  BarChart3,
-  Settings,
-  Users,
-  Database,
-  Shield,
-  Zap,
-  Globe,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { LayoutDashboard, Server, BarChart3, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { navigationItems } from "@/utils/constant/navigation";
@@ -24,12 +10,7 @@ const iconMap: Record<string, React.ReactNode> = {
   LayoutDashboard: <LayoutDashboard className="h-3 w-3" />,
   Server: <Server className="h-3 w-3" />,
   BarChart3: <BarChart3 className="h-3 w-3" />,
-  Database: <Database className="h-3 w-3" />,
-  Shield: <Shield className="h-3 w-3" />,
-  Zap: <Zap className="h-3 w-3" />,
-  Globe: <Globe className="h-3 w-3" />,
   Users: <Users className="h-3 w-3" />,
-  Settings: <Settings className="h-3 w-3" />,
 };
 
 interface SidebarProps {
@@ -40,17 +21,7 @@ interface SidebarProps {
 }
 
 const NavigationItem = memo(
-  ({
-    item,
-    isActive,
-    isCollapsed,
-    onClose,
-  }: {
-    item: (typeof navigationItems)[0];
-    isActive: boolean;
-    isCollapsed: boolean;
-    onClose: () => void;
-  }) => (
+  ({ item, isActive, isCollapsed, onClose }: { item: (typeof navigationItems)[0]; isActive: boolean; isCollapsed: boolean; onClose: () => void }) => (
     <Link
       to={item.href}
       onClick={() => {
@@ -64,15 +35,11 @@ const NavigationItem = memo(
         variant="ghost"
         className={cn(
           "w-full rounded-xl justify-start text-left transition-all duration-300 h-10",
-          isActive
-            ? "bg-accent text-accent-foreground"
-            : "text-foreground hover:bg-accent hover:text-accent-foreground",
+          isActive ? "bg-accent text-accent-foreground" : "text-foreground hover:bg-accent hover:text-accent-foreground",
           isCollapsed ? "justify-center px-2" : "px-3"
         )}
       >
-        <div className="flex items-center justify-center min-w-[16px]">
-          {iconMap[item.icon]}
-        </div>
+        <div className="flex items-center justify-center min-w-[16px]">{iconMap[item.icon]}</div>
         {!isCollapsed && <span className="ml-3">{item.name}</span>}
       </Button>
     </Link>
@@ -81,23 +48,13 @@ const NavigationItem = memo(
 
 NavigationItem.displayName = "NavigationItem";
 
-export function Sidebar({
-  isOpen,
-  onClose,
-  isCollapsed,
-  onToggleCollapse,
-}: SidebarProps) {
+export function Sidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
 
   return (
     <>
       {/* Mobile overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
-          onClick={onClose}
-        />
-      )}
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={onClose} />}
 
       {/* Sidebar */}
       <aside
@@ -114,15 +71,7 @@ export function Sidebar({
               .filter((item) => item.enabled)
               .map((item) => {
                 const isActive = location.pathname === item.href;
-                return (
-                  <NavigationItem
-                    key={item.name}
-                    item={item}
-                    isActive={isActive}
-                    isCollapsed={isCollapsed}
-                    onClose={onClose}
-                  />
-                );
+                return <NavigationItem key={item.name} item={item} isActive={isActive} isCollapsed={isCollapsed} onClose={onClose} />;
               })}
           </nav>
 
@@ -142,11 +91,7 @@ export function Sidebar({
               onClick={onToggleCollapse}
               className="w-full bg-background rounded-md p-2 border border-border cursor-pointer hover:scale-105 transition-all duration-200"
             >
-              {isCollapsed ? (
-                <ChevronRight className="h-3 w-3" />
-              ) : (
-                <ChevronLeft className="h-3 w-3" />
-              )}
+              {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
             </Button>
           </div>
         </div>

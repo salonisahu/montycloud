@@ -1,5 +1,3 @@
-"use client";
-
 import { BaseChart } from "./BaseChart";
 
 interface DoughnutChartProps {
@@ -19,21 +17,6 @@ interface DoughnutChartProps {
   height?: number;
 }
 
-export function DoughnutChart({
-  data,
-  options,
-  className,
-  width,
-  height,
-}: DoughnutChartProps) {
-  return (
-    <BaseChart
-      type="doughnut"
-      data={data}
-      options={options}
-      className={className}
-      width={width}
-      height={height}
-    />
-  );
+export function DoughnutChart({ data, options, className, width, height }: DoughnutChartProps) {
+  return <BaseChart type="doughnut" data={data} options={options} className={className} width={width} height={height} />;
 }
