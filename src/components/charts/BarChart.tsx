@@ -18,21 +18,6 @@ interface BarChartProps {
   height?: number;
 }
 
-export function BarChart({
-  data,
-  options,
-  className,
-  width,
-  height,
-}: BarChartProps) {
-  return (
-    <BaseChart
-      type="bar"
-      data={data}
-      options={options}
-      className={className}
-      width={width}
-      height={height}
-    />
-  );
-}
+export const BarChart = ({ data, options, className, width, height }: BarChartProps) => {
+  return <BaseChart type="bar" data={data} options={options} className={className} width={width} height={height} />;
+};

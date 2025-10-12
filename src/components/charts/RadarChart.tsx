@@ -17,6 +17,6 @@ interface RadarChartProps {
   height?: number;
 }
 
-export function RadarChart({ data, options, className, width, height }: RadarChartProps) {
+export const RadarChart = ({ data, options, className, width, height }: RadarChartProps) => {
   return <BaseChart type="radar" data={data} options={options} className={className} width={width} height={height} />;
-}
+};

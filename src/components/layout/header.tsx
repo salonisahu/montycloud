@@ -1,4 +1,4 @@
-import { Menu, Bell, LogOut } from "lucide-react";
+import { Menu, Bell, LogOut, Sun, Moon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,14 +8,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
 
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/contexts/theme";
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
-export function Header({ onMenuClick }: HeaderProps) {
+export const Header = ({ onMenuClick }: HeaderProps) => {
+  const { setTheme } = useTheme();
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full flex h-16 items-center justify-between px-4 overflow-x-hidden">
@@ -45,7 +47,25 @@ export function Header({ onMenuClick }: HeaderProps) {
           </Button>
 
           {/* Theme Toggle */}
-          <ModeToggle />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90 text-foreground" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0 text-foreground" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun className="mr-2 h-4 w-4" />
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon className="mr-2 h-4 w-4" />
+                Dark
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Profile Dropdown - Positioned at the very end */}
           <DropdownMenu>
@@ -82,4 +102,4 @@ export function Header({ onMenuClick }: HeaderProps) {
       </div>
     </header>
   );
-}
+};

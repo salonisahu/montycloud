@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -17,7 +10,7 @@ interface AddNewTransactionProps {
   onClose: () => void;
 }
 
-export function AddNewTransaction({ isOpen, onClose }: AddNewTransactionProps) {
+export const AddNewTransaction = ({ isOpen, onClose }: AddNewTransactionProps) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -27,12 +20,7 @@ export function AddNewTransaction({ isOpen, onClose }: AddNewTransactionProps) {
 
   const handleSubmit = () => {
     // Basic validation
-    if (
-      !formData.name ||
-      !formData.description ||
-      !formData.amount ||
-      !formData.category
-    ) {
+    if (!formData.name || !formData.description || !formData.amount || !formData.category) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -84,10 +72,7 @@ export function AddNewTransaction({ isOpen, onClose }: AddNewTransactionProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add New Transaction</DialogTitle>
-          <DialogDescription>
-            Enter the details for your new transaction. This will be added to
-            your transaction history.
-          </DialogDescription>
+          <DialogDescription>Enter the details for your new transaction. This will be added to your transaction history.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -150,4 +135,4 @@ export function AddNewTransaction({ isOpen, onClose }: AddNewTransactionProps) {
       </DialogContent>
     </Dialog>
   );
-}
+};

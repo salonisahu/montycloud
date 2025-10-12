@@ -17,6 +17,6 @@ interface BubbleChartProps {
   height?: number;
 }
 
-export function BubbleChart({ data, options, className, width, height }: BubbleChartProps) {
+export const BubbleChart = ({ data, options, className, width, height }: BubbleChartProps) => {
   return <BaseChart type="bubble" data={data} options={options} className={className} width={width} height={height} />;
-}
+};

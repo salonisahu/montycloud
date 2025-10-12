@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
-import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { Header } from "./Header";
+import { Sidebar } from "./Sidebar";
 
 interface LayoutWrapperProps {
   children: React.ReactNode;
 }
 
-export function LayoutWrapper({ children }: LayoutWrapperProps) {
+export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
@@ -34,4 +34,4 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
       </main>
     </div>
   );
-}
+};

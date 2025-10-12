@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { LayoutWrapper } from "@/components/layout/main-layout";
-import { TooltipProvider } from "./components/ui/tooltip";
-import { Toaster } from "./components/ui/sonner";
-import Dashboard from "./pages/Dashboard";
-import { Services } from "./pages/Services";
-import Monitoring from "./pages/Monitoring";
-import { Profile } from "./pages/Profile";
+import { LayoutWrapper } from "@/components/layout/MainLayout";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
+import Dashboard from "@/pages/Dashboard";
+import Services from "@/pages/Services";
+import Monitoring from "@/pages/Monitoring";
+import Profile from "@/pages/Profile";
 
 function App() {
   return (

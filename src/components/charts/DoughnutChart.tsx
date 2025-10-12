@@ -17,6 +17,6 @@ interface DoughnutChartProps {
   height?: number;
 }
 
-export function DoughnutChart({ data, options, className, width, height }: DoughnutChartProps) {
+export const DoughnutChart = ({ data, options, className, width, height }: DoughnutChartProps) => {
   return <BaseChart type="doughnut" data={data} options={options} className={className} width={width} height={height} />;
-}
+};

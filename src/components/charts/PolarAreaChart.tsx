@@ -17,6 +17,6 @@ interface PolarAreaChartProps {
   height?: number;
 }
 
-export function PolarAreaChart({ data, options, className, width, height }: PolarAreaChartProps) {
+export const PolarAreaChart = ({ data, options, className, width, height }: PolarAreaChartProps) => {
   return <BaseChart type="polarArea" data={data} options={options} className={className} width={width} height={height} />;
-}
+};

@@ -16,6 +16,6 @@ interface ScatterChartProps {
   height?: number;
 }
 
-export function ScatterChart({ data, options, className, width, height }: ScatterChartProps) {
+export const ScatterChart = ({ data, options, className, width, height }: ScatterChartProps) => {
   return <BaseChart type="scatter" data={data} options={options} className={className} width={width} height={height} />;
-}
+};

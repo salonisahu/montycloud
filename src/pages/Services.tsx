@@ -1,20 +1,12 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export function Services() {
+const Services = () => {
   return (
     <div className="space-y-6 bg-background min-h-screen">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-foreground">Cloud Services</h1>
-        <p className="text-muted-foreground">
-          Manage your cloud infrastructure services
-        </p>
+        <p className="text-muted-foreground">Manage your cloud infrastructure services</p>
       </div>
 
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-lg">
@@ -79,9 +71,7 @@ export function Services() {
       <Card>
         <CardHeader>
           <CardTitle>Service Management</CardTitle>
-          <CardDescription>
-            Deploy and manage your cloud services
-          </CardDescription>
+          <CardDescription>Deploy and manage your cloud services</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -93,4 +83,6 @@ export function Services() {
       </Card>
     </div>
   );
-}
+};
+
+export default Services;

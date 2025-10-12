@@ -27,7 +27,7 @@ interface BaseChartProps {
   height?: number;
 }
 
-export function BaseChart({ type, data, options, className = "", width, height }: BaseChartProps) {
+export const BaseChart = ({ type, data, options, className = "", width, height }: BaseChartProps) => {
   const defaultOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -48,4 +48,4 @@ export function BaseChart({ type, data, options, className = "", width, height }
       <Chart type={type} data={data} options={defaultOptions} />
     </div>
   );
-}
+};

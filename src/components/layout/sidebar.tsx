@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Server, BarChart3, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { navigationItems } from "@/utils/constant/navigation";
+import { cn } from "@/utils/helpers";
+import { navigationItems } from "@/constants/navigation";
 import { memo } from "react";
 
 // Icon mapping for dynamic icon rendering
@@ -48,7 +48,7 @@ const NavigationItem = memo(
 
 NavigationItem.displayName = "NavigationItem";
 
-export function Sidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }: SidebarProps) {
+export const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }: SidebarProps) => {
   const location = useLocation();
 
   return (
@@ -98,4 +98,4 @@ export function Sidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }: Side
       </aside>
     </>
   );
-}
+};

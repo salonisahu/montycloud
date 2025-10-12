@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin, Shield, Key } from "lucide-react";
 
-export function Profile() {
+const Profile = () => {
   return (
     <div className="space-y-6 bg-background min-h-screen">
       <div className="space-y-2">
@@ -125,4 +125,6 @@ export function Profile() {
       </Card>
     </div>
   );
-}
+};
+
+export default Profile;

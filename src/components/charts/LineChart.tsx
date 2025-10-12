@@ -19,21 +19,6 @@ interface LineChartProps {
   height?: number;
 }
 
-export function LineChart({
-  data,
-  options,
-  className,
-  width,
-  height,
-}: LineChartProps) {
-  return (
-    <BaseChart
-      type="line"
-      data={data}
-      options={options}
-      className={className}
-      width={width}
-      height={height}
-    />
-  );
-}
+export const LineChart = ({ data, options, className, width, height }: LineChartProps) => {
+  return <BaseChart type="line" data={data} options={options} className={className} width={width} height={height} />;
+};

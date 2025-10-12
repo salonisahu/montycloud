@@ -17,21 +17,6 @@ interface PieChartProps {
   height?: number;
 }
 
-export function PieChart({
-  data,
-  options,
-  className,
-  width,
-  height,
-}: PieChartProps) {
-  return (
-    <BaseChart
-      type="pie"
-      data={data}
-      options={options}
-      className={className}
-      width={width}
-      height={height}
-    />
-  );
-}
+export const PieChart = ({ data, options, className, width, height }: PieChartProps) => {
+  return <BaseChart type="pie" data={data} options={options} className={className} width={width} height={height} />;
+};
