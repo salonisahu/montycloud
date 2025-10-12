@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Server, BarChart3, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/helpers";
+import { cn } from "@/lib/utils";
 import { navigationItems } from "@/constants/navigation";
 import { memo } from "react";
 

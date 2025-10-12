@@ -30,9 +30,12 @@
     --accent-foreground: oklch(0.98 0.01 264);
     --destructive: var(--color-error);
     --destructive-foreground: oklch(0.98 0.01 264);
+    --success: var(--color-success);
+    --success-foreground: oklch(0.98 0.01 264);
     --border: oklch(0.85 0.05 264);
     --input: oklch(0.85 0.05 264);
     --ring: var(--brand-primary);
+    
 
     /* Chart Colors */
     --chart-1: oklch(0.45 0.25 264);
@@ -194,6 +197,8 @@
     --accent-foreground: oklch(0.1 0.05 264);
     --destructive: oklch(0.7 0.2 0);
     --destructive-foreground: oklch(0.95 0.02 264);
+    --success: var(--color-success);
+    --success-foreground: oklch(0.98 0.01 264);
     --border: oklch(0.3 0.05 264);
     --input: oklch(0.3 0.05 264);
     --ring: var(--brand-primary-light);

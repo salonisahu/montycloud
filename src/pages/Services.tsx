@@ -1,4 +1,6 @@
+import { Search } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 
 const Services = () => {
@@ -8,7 +10,15 @@ const Services = () => {
         <h1 className="text-3xl font-bold text-foreground">Cloud Services</h1>
         <p className="text-muted-foreground">Manage your cloud infrastructure services</p>
       </div>
-
+      <div>
+        <InputGroup>
+          <InputGroupInput placeholder="Search..." />
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+        </InputGroup>
+      </div>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-lg">
         <Card>
           <CardHeader>

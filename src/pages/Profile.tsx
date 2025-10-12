@@ -25,7 +25,7 @@ const Profile = () => {
               <p className="text-muted-foreground">john.doe@example.com</p>
               <div className="flex items-center space-x-2">
                 <Badge variant="secondary">Admin</Badge>
-                <Badge variant="outline">Active</Badge>
+                <Badge variant="success">Active</Badge>
               </div>
             </div>
           </div>
