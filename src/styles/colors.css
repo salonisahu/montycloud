@@ -1,0 +1,270 @@
+/* ===========================================
+   CENTRALIZED COLOR SYSTEM
+   =========================================== */
+
+:root {
+    /* Brand Colors */
+    --brand-primary: oklch(0 0);
+    --brand-primary-light: oklch(0.65 0.2 264);
+    --brand-primary-dark: oklch(0.25 0.2 264);
+    --brand-secondary: oklch(0.6 0.15 200);
+    --brand-accent: oklch(0.7 0.2 200);
+    --brand-neutral: oklch(0.5 0.02 264);
+    --brand-white: oklch(1 0 0);
+    --brand-black: oklch(0.05 0 0);
+
+    /* System Colors */
+    --background: oklch(0.98 0.01 264);
+    --foreground: oklch(0.15 0.05 264);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.15 0.05 264);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.15 0.05 264);
+    --primary: var(--brand-primary);
+    --primary-foreground: oklch(0.98 0.01 264);
+    --secondary: oklch(0.95 0.02 264);
+    --secondary-foreground: oklch(0.15 0.05 264);
+    --muted: oklch(0.9 0.03 264);
+    --muted-foreground: oklch(0.5 0.08 264);
+    --accent: var(--brand-accent);
+    --accent-foreground: oklch(0.98 0.01 264);
+    --destructive: var(--color-error);
+    --destructive-foreground: oklch(0.98 0.01 264);
+    --border: oklch(0.85 0.05 264);
+    --input: oklch(0.85 0.05 264);
+    --ring: var(--brand-primary);
+
+    /* Chart Colors */
+    --chart-1: oklch(0.45 0.25 264);
+    --chart-2: oklch(0.6 0.15 200);
+    --chart-3: oklch(0.5 0.25 240);
+    --chart-4: oklch(0.6 0.15 180);
+    --chart-5: oklch(0.7 0.15 60);
+    --chart-6: oklch(0.6 0.2 0);
+    --chart-7: oklch(0.5 0.2 300);
+    --chart-8: oklch(0.4 0.25 220);
+    --chart-9: oklch(0.6 0.15 120);
+    --chart-10: oklch(0.5 0.2 280);
+
+    /* Sidebar */
+    --sidebar: oklch(0.95 0.02 264);
+    --sidebar-foreground: oklch(0.15 0.05 264);
+    --sidebar-primary: var(--brand-primary);
+    --sidebar-primary-foreground: oklch(0.98 0.01 264);
+    --sidebar-accent: oklch(0.9 0.03 264);
+    --sidebar-accent-foreground: oklch(0.15 0.05 264);
+    --sidebar-border: oklch(0.85 0.05 264);
+    --sidebar-ring: var(--brand-primary);
+
+    /* Color Scales */
+    --blue-50: oklch(0.95 0.05 264);
+    --blue-100: oklch(0.9 0.1 264);
+    --blue-200: oklch(0.8 0.15 264);
+    --blue-300: oklch(0.7 0.2 264);
+    --blue-400: oklch(0.6 0.22 264);
+    --blue-500: oklch(0.45 0.25 264);
+    --blue-600: oklch(0.35 0.25 264);
+    --blue-700: oklch(0.25 0.2 264);
+    --blue-800: oklch(0.2 0.15 264);
+    --blue-900: oklch(0.1 0.1 264);
+
+    --blue-gray-50: oklch(0.98 0.01 264);
+    --blue-gray-100: oklch(0.95 0.02 264);
+    --blue-gray-200: oklch(0.9 0.03 264);
+    --blue-gray-300: oklch(0.85 0.05 264);
+    --blue-gray-400: oklch(0.7 0.08 264);
+    --blue-gray-500: oklch(0.55 0.1 264);
+    --blue-gray-600: oklch(0.45 0.12 264);
+    --blue-gray-700: oklch(0.35 0.1 264);
+    --blue-gray-800: oklch(0.25 0.08 264);
+    --blue-gray-900: oklch(0.15 0.05 264);
+    --blue-gray-950: oklch(0.05 0.02 264);
+
+    --cyan-50: oklch(0.95 0.05 200);
+    --cyan-100: oklch(0.9 0.1 200);
+    --cyan-200: oklch(0.8 0.15 200);
+    --cyan-300: oklch(0.7 0.2 200);
+    --cyan-400: oklch(0.6 0.22 200);
+    --cyan-500: oklch(0.5 0.25 200);
+    --cyan-600: oklch(0.4 0.25 200);
+    --cyan-700: oklch(0.3 0.2 200);
+    --cyan-800: oklch(0.2 0.15 200);
+    --cyan-900: oklch(0.1 0.1 200);
+
+    --indigo-50: oklch(0.95 0.05 240);
+    --indigo-100: oklch(0.9 0.1 240);
+    --indigo-200: oklch(0.8 0.15 240);
+    --indigo-300: oklch(0.7 0.2 240);
+    --indigo-400: oklch(0.6 0.22 240);
+    --indigo-500: oklch(0.5 0.25 240);
+    --indigo-600: oklch(0.4 0.25 240);
+    --indigo-700: oklch(0.3 0.2 240);
+    --indigo-800: oklch(0.2 0.15 240);
+    --indigo-900: oklch(0.1 0.1 240);
+
+    /* Semantic Colors */
+    --color-success: oklch(0.6 0.15 180);
+    --color-success-light: oklch(0.8 0.1 180);
+    --color-success-dark: oklch(0.4 0.2 180);
+    --color-warning: oklch(0.7 0.15 60);
+    --color-warning-light: oklch(0.85 0.1 60);
+    --color-warning-dark: oklch(0.5 0.2 60);
+    --color-error: oklch(0.6 0.2 0);
+    --color-error-light: oklch(0.75 0.15 0);
+    --color-error-dark: oklch(0.45 0.25 0);
+    --color-info: oklch(0.6 0.15 240);
+    --color-info-light: oklch(0.8 0.1 240);
+    --color-info-dark: oklch(0.4 0.2 240);
+
+    /* Status Colors */
+    --status-online: oklch(0.6 0.15 180);
+    --status-offline: oklch(0.5 0.02 264);
+    --status-away: oklch(0.7 0.15 60);
+    --status-busy: oklch(0.6 0.2 0);
+
+    /* Interactive States */
+    --hover-overlay: oklch(0.45 0.25 264 / 0.05);
+    --active-overlay: oklch(0.45 0.25 264 / 0.1);
+    --focus-ring: oklch(0.45 0.25 264 / 0.3);
+    --disabled-overlay: oklch(0 0 0 / 0.1);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px oklch(0.45 0.25 264 / 0.1);
+    --shadow-md: 0 4px 6px oklch(0.45 0.25 264 / 0.15);
+    --shadow-lg: 0 10px 15px oklch(0.45 0.25 264 / 0.2);
+    --shadow-xl: 0 20px 25px oklch(0.45 0.25 264 / 0.25);
+    --shadow-2xl: 0 25px 50px oklch(0.45 0.25 264 / 0.3);
+
+    /* Text Colors */
+    --text-hero: oklch(0.15 0.05 264);
+    --text-hero-light: oklch(0.3 0.05 264);
+    --text-primary: oklch(0.2 0.05 264);
+    --text-primary-light: oklch(0.4 0.05 264);
+    --text-secondary: oklch(0.5 0.05 264);
+    --text-muted: oklch(0.6 0.05 264);
+    --text-accent: var(--brand-primary);
+    --text-success: oklch(0.3 0.15 142);
+    --text-warning: oklch(0.3 0.15 60);
+    --text-error: oklch(0.3 0.15 0);
+    --text-info: oklch(0.3 0.15 240);
+
+    /* Button Colors */
+    --button-success-bg: oklch(0.95 0.05 142);
+    --button-success-bg-hover: oklch(0.9 0.1 142);
+    --button-success-text: oklch(0.3 0.15 142);
+    --button-success-border: oklch(0.8 0.1 142);
+    --button-success-border-hover: oklch(0.7 0.15 142);
+
+    --button-warning-bg: oklch(0.95 0.05 60);
+    --button-warning-bg-hover: oklch(0.9 0.1 60);
+    --button-warning-text: oklch(0.3 0.15 60);
+    --button-warning-border: oklch(0.8 0.1 60);
+    --button-warning-border-hover: oklch(0.7 0.15 60);
+
+    --button-error-bg: oklch(0.95 0.05 0);
+    --button-error-bg-hover: oklch(0.9 0.1 0);
+    --button-error-text: oklch(0.3 0.15 0);
+    --button-error-border: oklch(0.8 0.1 0);
+    --button-error-border-hover: oklch(0.7 0.15 0);
+}
+
+.dark {
+    /* Brand Colors - Dark Mode */
+    --brand-primary: oklch(0.6 0.2 264);
+    --brand-primary-light: oklch(0.75 0.15 264);
+    --brand-primary-dark: oklch(0.35 0.25 264);
+    --brand-secondary: oklch(0.7 0.15 200);
+    --brand-accent: oklch(0.8 0.15 200);
+    --brand-neutral: oklch(0.6 0.05 264);
+
+    /* System Colors - Dark Mode */
+    --background: oklch(0.1 0.05 264);
+    --foreground: oklch(0.95 0.02 264);
+    --card: oklch(0.15 0.05 264);
+    --card-foreground: oklch(0.95 0.02 264);
+    --popover: oklch(0.15 0.05 264);
+    --popover-foreground: oklch(0.95 0.02 264);
+    --primary: var(--brand-primary-light);
+    --primary-foreground: oklch(0.1 0.05 264);
+    --secondary: oklch(0.25 0.05 264);
+    --secondary-foreground: oklch(0.95 0.02 264);
+    --muted: oklch(0.25 0.05 264);
+    --muted-foreground: oklch(0.6 0.08 264);
+    --accent: oklch(0.8 0.15 200);
+    --accent-foreground: oklch(0.1 0.05 264);
+    --destructive: oklch(0.7 0.2 0);
+    --destructive-foreground: oklch(0.95 0.02 264);
+    --border: oklch(0.3 0.05 264);
+    --input: oklch(0.3 0.05 264);
+    --ring: var(--brand-primary-light);
+
+    /* Chart Colors - Dark Mode */
+    --chart-1: var(--chart-1);
+    --chart-2: var(--chart-2);
+    --chart-3: var(--chart-3);
+    --chart-4: var(--chart-4);
+    --chart-5: var(--chart-5);
+
+    /* Sidebar - Dark Mode */
+    --sidebar: oklch(0.15 0.05 264);
+    --sidebar-foreground: oklch(0.95 0.02 264);
+    --sidebar-primary: var(--brand-primary-light);
+    --sidebar-primary-foreground: oklch(0.1 0.05 264);
+    --sidebar-accent: oklch(0.25 0.05 264);
+    --sidebar-accent-foreground: oklch(0.95 0.02 264);
+    --sidebar-border: oklch(0.3 0.05 264);
+    --sidebar-ring: var(--brand-primary-light);
+
+    /* Semantic Colors - Dark Mode */
+    --color-success: oklch(0.7 0.15 180);
+    --color-success-light: oklch(0.6 0.1 180);
+    --color-success-dark: oklch(0.5 0.2 180);
+    --color-warning: oklch(0.8 0.15 60);
+    --color-warning-light: oklch(0.7 0.1 60);
+    --color-warning-dark: oklch(0.6 0.2 60);
+    --color-error: oklch(0.7 0.2 0);
+    --color-error-light: oklch(0.6 0.15 0);
+    --color-error-dark: oklch(0.5 0.25 0);
+    --color-info: oklch(0.7 0.15 240);
+    --color-info-light: oklch(0.6 0.1 240);
+    --color-info-dark: oklch(0.5 0.2 240);
+
+    /* Shadows - Dark Mode */
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px oklch(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px oklch(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px oklch(0 0 0 / 0.4);
+    --shadow-2xl: 0 25px 50px oklch(0 0 0 / 0.5);
+
+    /* Text Colors - Dark Mode */
+    --text-hero: oklch(0.95 0.02 264);
+    --text-hero-light: oklch(0.8 0.02 264);
+    --text-primary: oklch(0.9 0.02 264);
+    --text-primary-light: oklch(0.7 0.02 264);
+    --text-secondary: oklch(0.6 0.02 264);
+    --text-muted: oklch(0.5 0.02 264);
+    --text-accent: var(--brand-primary-light);
+    --text-success: oklch(0.7 0.15 142);
+    --text-warning: oklch(0.7 0.15 60);
+    --text-error: oklch(0.7 0.15 0);
+    --text-info: oklch(0.7 0.15 240);
+
+    /* Button Colors - Dark Mode */
+    --button-success-bg: oklch(0.7 0.15 240);
+    --button-success-bg-hover: oklch(0.25 0.15 142);
+    --button-success-text: oklch(0.7 0.15 142);
+    --button-success-border: oklch(0.3 0.1 142);
+    --button-success-border-hover: oklch(0.4 0.15 142);
+
+    --button-warning-bg: oklch(0.2 0.1 60);
+    --button-warning-bg-hover: oklch(0.25 0.15 60);
+    --button-warning-text: oklch(0.7 0.15 60);
+    --button-warning-border: oklch(0.3 0.1 60);
+    --button-warning-border-hover: oklch(0.4 0.15 60);
+
+    --button-error-bg: oklch(0.2 0.1 0);
+    --button-error-bg-hover: oklch(0.25 0.15 0);
+    --button-error-text: oklch(0.7 0.15 0);
+    --button-error-border: oklch(0.3 0.1 0);
+    --button-error-border-hover: oklch(0.4 0.15 0);
+}

@@ -1,0 +1,37 @@
+/* ===========================================
+   BUTTON COMPONENT STYLES
+   =========================================== */
+
+/* Button Variant Utilities */
+.btn-success {
+    background-color: var(--button-success-bg);
+    color: var(--button-success-text);
+    border-color: var(--button-success-border);
+}
+
+.btn-success:hover {
+    background-color: var(--button-success-bg-hover);
+    border-color: var(--button-success-border-hover);
+}
+
+.btn-warning {
+    background-color: var(--button-warning-bg);
+    color: var(--button-warning-text);
+    border-color: var(--button-warning-border);
+}
+
+.btn-warning:hover {
+    background-color: var(--button-warning-bg-hover);
+    border-color: var(--button-warning-border-hover);
+}
+
+.btn-error {
+    background-color: var(--button-error-bg);
+    color: var(--button-error-text);
+    border-color: var(--button-error-border);
+}
+
+.btn-error:hover {
+    background-color: var(--button-error-bg-hover);
+    border-color: var(--button-error-border-hover);
+}
