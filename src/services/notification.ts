@@ -4,7 +4,6 @@ import type { NotificationItem } from "@/types/notifications";
 export function showNotificationToast(notification: NotificationItem): void {
     const baseOptions = {
         description: notification.message,
-        position: "top-center" as const,
     };
 
     const levelStyles = {

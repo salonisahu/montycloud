@@ -13,7 +13,3 @@ export interface NotificationTemplate {
     title: string;
     type: NotificationLevel;
 }
-
-export interface DataState {
-    notifications: NotificationItem[];
-}

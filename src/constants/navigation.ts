@@ -19,12 +19,6 @@ export const navigationItems: NavigationItem[] = [
     enabled: true,
   },
   {
-    name: "Monitoring",
-    href: "/monitoring",
-    icon: "BarChart3",
-    enabled: true,
-  },
-  {
     name: "Profile",
     href: "/profile",
     icon: "Users",

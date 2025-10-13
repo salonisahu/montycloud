@@ -2,18 +2,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import { BarChart, LineChart, PieChart, DoughnutChart, PolarAreaChart, RadarChart, ScatterChart, BubbleChart } from "@/components/charts";
-import {
-  cpuUsageData,
-  memoryUsageData,
-  diskUsageData,
-  networkTrafficData,
-  performanceData,
-  errorResponseData,
-  resourceUtilizationData,
-  systemLoadData,
-} from "@/constants/monitoring";
+import { useData } from "@/contexts/data";
 
 const Dashboard = () => {
+  const { state } = useData();
+  const { monitoring } = state;
   return (
     <div className="space-y-6 bg-background min-h-screen">
       <div className="space-y-4">
@@ -92,7 +85,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <LineChart
-                data={cpuUsageData}
+                data={monitoring.cpuUsage}
                 options={{
                   plugins: {
                     title: {
@@ -125,7 +118,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <BarChart
-                data={memoryUsageData}
+                data={monitoring.memoryUsage}
                 options={{
                   plugins: {
                     title: {
@@ -157,7 +150,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <DoughnutChart
-                data={diskUsageData}
+                data={monitoring.diskUsage}
                 options={{
                   plugins: {
                     title: {
@@ -179,7 +172,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <PieChart
-                data={networkTrafficData}
+                data={monitoring.networkTraffic}
                 options={{
                   plugins: {
                     title: {
@@ -201,7 +194,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <RadarChart
-                data={performanceData}
+                data={monitoring.performance}
                 options={{
                   plugins: {
                     title: {
@@ -229,7 +222,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <PolarAreaChart
-                data={systemLoadData}
+                data={monitoring.systemLoad}
                 options={{
                   plugins: {
                     title: {
@@ -251,7 +244,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <ScatterChart
-                data={errorResponseData}
+                data={monitoring.errorResponse}
                 options={{
                   plugins: {
                     title: {
@@ -287,7 +280,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="h-64">
               <BubbleChart
-                data={resourceUtilizationData}
+                data={monitoring.resourceUtilization}
                 options={{
                   plugins: {
                     title: {

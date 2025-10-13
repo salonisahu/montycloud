@@ -1,8 +1,14 @@
 import { createContext, useContext, useEffect, useMemo, useCallback, useState } from "react";
-import type { NotificationItem, DataState } from "@/types/notifications";
+import type { NotificationItem } from "@/types/notifications";
 import { makeNotification, isDuplicateNotification } from "@/lib/utils";
 import { showNotificationToast } from "@/services/notification";
 import { NOTIFICATION_SETTINGS } from "@/constants/notifications";
+import { MONITORING_DATA } from "@/constants/monitoring";
+
+export interface DataState {
+  notifications: NotificationItem[];
+  monitoring: typeof MONITORING_DATA;
+}
 
 const DataContext = createContext<{
   state: DataState;
@@ -20,6 +26,7 @@ export const useData = () => {
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, setState] = useState<DataState>({
     notifications: [],
+    monitoring: MONITORING_DATA,
   });
 
   const addNotification = useCallback((notification: NotificationItem) => {
