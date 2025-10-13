@@ -1,4 +1,5 @@
 import React, { useMemo, useCallback, useState, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 import type { DataState } from "@/types/data";
 import type { NotificationItem } from "@/types/notifications";
 import type { ResourceQuery } from "@/types/services";
@@ -9,9 +10,10 @@ import { NOTIFICATION_SETTINGS } from "@/constants/notifications";
 import { useNotifications } from "@/hooks/useNotifications";
 import type { DataContextType } from "@/types/data";
 
-const DataContext = createContext<DataContextType | null>(null);
+export const DataContext = createContext<DataContextType | null>(null);
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
   const [state, setState] = useState<DataState>({
     notifications: [],
     monitoring: MONITORING_DATA,
@@ -44,6 +46,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   useNotifications({
     enabled: true,
     onNotification: addNotification,
+    navigate: navigate,
   });
 
   const setResourceQuery = useCallback((query: ResourceQuery) => {

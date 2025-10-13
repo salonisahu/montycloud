@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, Bell, LogOut, Sun, Moon, Check, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +25,7 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
   const { state, markAllAsRead, clearAllNotifications } = useData();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Get notification count and list from data provider
   const notificationCount = state.notifications.length;
@@ -144,7 +145,14 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
               {notifications.length > 0 ? (
                 <div className="space-y-3">
                   {notifications.map((notification) => (
-                    <div key={notification.id} className="flex items-start gap-3 p-3 rounded-lg border bg-card">
+                    <div
+                      key={notification.id}
+                      className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent cursor-pointer transition-colors"
+                      onClick={() => {
+                        navigate(`/notification/${notification.id}`);
+                        setNotificationsOpen(false);
+                      }}
+                    >
                       <div className={`w-2 h-2 rounded-full ${getNotificationLevelColor(notification.level)} mt-2 flex-shrink-0`} />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium">{notification.title}</p>

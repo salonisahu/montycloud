@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import type { NotificationItem } from "@/types/notifications";
 
-export function showNotificationToast(notification: NotificationItem): void {
+export function showNotificationToast(notification: NotificationItem, navigate?: (path: string) => void): void {
     const baseOptions = {
         description: notification.message,
     };
@@ -41,10 +41,10 @@ export function showNotificationToast(notification: NotificationItem): void {
             toast.info(notification.title, {
                 ...baseOptions,
                 duration: 4000,
-                action: {
+                action: navigate ? {
                     label: "View",
-                    onClick: () => console.log("View notification:", notification.id),
-                },
+                    onClick: () => navigate(`/notification/${notification.id}`),
+                } : undefined,
                 actionButtonStyle: styles,
             });
             break;
@@ -52,10 +52,10 @@ export function showNotificationToast(notification: NotificationItem): void {
             toast.warning(notification.title, {
                 ...baseOptions,
                 duration: 5000,
-                action: {
+                action: navigate ? {
                     label: "Investigate",
-                    onClick: () => console.log("Investigate warning:", notification.id),
-                },
+                    onClick: () => navigate(`/notification/${notification.id}`),
+                } : undefined,
                 actionButtonStyle: styles,
             });
             break;
@@ -63,10 +63,10 @@ export function showNotificationToast(notification: NotificationItem): void {
             toast.error(notification.title, {
                 ...baseOptions,
                 duration: 6000,
-                action: {
+                action: navigate ? {
                     label: "Fix Now",
-                    onClick: () => console.log("Fix error:", notification.id),
-                },
+                    onClick: () => navigate(`/notification/${notification.id}`),
+                } : undefined,
                 actionButtonStyle: styles,
             });
             break;

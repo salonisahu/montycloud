@@ -7,10 +7,11 @@ import type { NotificationItem } from "@/types/notifications";
 interface UseNotificationsOptions {
     enabled?: boolean;
     onNotification?: (notification: NotificationItem) => void;
+    navigate?: (path: string) => void;
 }
 
 export const useNotifications = (options: UseNotificationsOptions = {}) => {
-    const { enabled = true, onNotification } = options;
+    const { enabled = true, onNotification, navigate } = options;
     const intervalRef = useRef<number | null>(null);
 
     const generateNotification = useCallback(() => {
@@ -19,7 +20,7 @@ export const useNotifications = (options: UseNotificationsOptions = {}) => {
         const notification = makeNotification();
 
         if (!isDuplicateNotification(notification)) {
-            showNotificationToast(notification);
+            showNotificationToast(notification, navigate);
             onNotification?.(notification);
         }
     }, [enabled, onNotification]);
