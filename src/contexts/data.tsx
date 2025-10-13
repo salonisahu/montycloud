@@ -1,38 +1,26 @@
-import { createContext, useContext, useEffect, useMemo, useCallback, useState } from "react";
+import React, { useMemo, useCallback, useState, createContext } from "react";
+import type { DataState } from "@/types/data";
 import type { NotificationItem } from "@/types/notifications";
-import { makeNotification, isDuplicateNotification } from "@/lib/utils";
-import { showNotificationToast } from "@/services/notification";
-import { NOTIFICATION_SETTINGS } from "@/constants/notifications";
+import type { ResourceQuery } from "@/types/services";
+import { filterResources } from "@/lib/utils";
 import { MONITORING_DATA } from "@/constants/monitoring";
+import { SAMPLE_CLOUD_DATA } from "@/constants/cloud";
+import { NOTIFICATION_SETTINGS } from "@/constants/notifications";
+import { useNotifications } from "@/hooks/useNotifications";
+import type { DataContextType } from "@/types/data";
 
-export interface DataState {
-  notifications: NotificationItem[];
-  monitoring: typeof MONITORING_DATA;
-}
-
-const DataContext = createContext<{
-  state: DataState;
-  addNotification: (notification: NotificationItem) => void;
-  markAllAsRead: () => void;
-  clearAllNotifications: () => void;
-} | null>(null);
-
-export const useData = () => {
-  const ctx = useContext(DataContext);
-  if (!ctx) throw new Error("useData must be used within DataProvider");
-  return ctx;
-};
+const DataContext = createContext<DataContextType | null>(null);
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, setState] = useState<DataState>({
     notifications: [],
     monitoring: MONITORING_DATA,
+    resources: SAMPLE_CLOUD_DATA,
+    resourceQuery: {},
+    filteredResources: SAMPLE_CLOUD_DATA,
   });
 
   const addNotification = useCallback((notification: NotificationItem) => {
-    if (!isDuplicateNotification(notification)) {
-      showNotificationToast(notification);
-    }
     setState((prev) => ({
       ...prev,
       notifications: [notification, ...prev.notifications].slice(0, NOTIFICATION_SETTINGS.MAX_NOTIFICATIONS),
@@ -53,22 +41,28 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }));
   }, []);
 
-  // Simulate periodic notifications
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (Math.random() < NOTIFICATION_SETTINGS.GENERATION_PROBABILITY) {
-        const notification = makeNotification();
-        if (!isDuplicateNotification(notification)) {
-          showNotificationToast(notification);
-        }
-        setState((prev) => ({
-          ...prev,
-          notifications: [notification, ...prev.notifications].slice(0, NOTIFICATION_SETTINGS.MAX_NOTIFICATIONS),
-        }));
-      }
-    }, NOTIFICATION_SETTINGS.GENERATION_INTERVAL);
+  useNotifications({
+    enabled: true,
+    onNotification: addNotification,
+  });
 
-    return () => clearInterval(interval);
+  const setResourceQuery = useCallback((query: ResourceQuery) => {
+    setState((prev) => {
+      const filteredResources = filterResources(prev.resources, query);
+      return {
+        ...prev,
+        resourceQuery: query,
+        filteredResources,
+      };
+    });
+  }, []);
+
+  const resetResourceQuery = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      resourceQuery: {},
+      filteredResources: prev.resources,
+    }));
   }, []);
 
   const value = useMemo(
@@ -77,8 +71,10 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       addNotification,
       markAllAsRead,
       clearAllNotifications,
+      setResourceQuery,
+      resetResourceQuery,
     }),
-    [state, addNotification, markAllAsRead, clearAllNotifications]
+    [state, addNotification, markAllAsRead, clearAllNotifications, setResourceQuery, resetResourceQuery]
   );
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

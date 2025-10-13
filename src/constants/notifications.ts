@@ -66,7 +66,6 @@ export const NOTIFICATION_TEMPLATES: readonly NotificationTemplate[] = [
 export const NOTIFICATION_SETTINGS = {
     DUPLICATE_THRESHOLD: 5000,
     MAX_NOTIFICATIONS: 50,
-    GENERATION_PROBABILITY: 0.7,
     GENERATION_INTERVAL: 5000,
 } as const;
 

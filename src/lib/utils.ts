@@ -2,70 +2,45 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import type { Resource, ResourceQuery, Status } from "@/types/services";
 import type { NotificationItem } from "@/types/notifications";
-import { NOTIFICATION_TEMPLATES, SERVICE_TARGETS } from "@/constants/notifications";
+import { NOTIFICATION_TEMPLATES, SERVICE_TARGETS, NOTIFICATION_SETTINGS } from "@/constants/notifications";
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
 
-export const toSet = (value?: string[] | string): Set<string> | null => {
-  if (Array.isArray(value)) {
-    return new Set(value);
-  }
-  if (value) {
-    return new Set([value]);
-  }
-  return null;
-};
-
 export const filterResources = (resources: Resource[], query: ResourceQuery): Resource[] => {
-  const statusSet = toSet(query.status);
-  const typeSet = toSet(query.type);
-  const accountIdSet = toSet(query.accountId);
-  const regionSet = toSet(query.region);
-  const searchText = query.text?.toLowerCase().trim();
-
   return resources.filter((resource) => {
-    // Filter by status
-    if (statusSet && !statusSet.has(resource.status)) {
+
+    const arrayFilters = [
+      { values: query.status, resourceValue: resource.status },
+      { values: query.type, resourceValue: resource.type },
+      { values: query.account, resourceValue: resource.account },
+      { values: query.region, resourceValue: resource.region },
+    ];
+
+    for (const { values, resourceValue } of arrayFilters) {
+      if (values?.length && !values.includes(resourceValue)) {
+        return false;
+      }
+    }
+
+    if (query.cpuOver != null && resource.cpu < query.cpuOver) {
       return false;
     }
 
-    // Filter by type
-    if (typeSet && !typeSet.has(resource.type)) {
-      return false;
-    }
-
-    // Filter by account ID
-    if (accountIdSet && !accountIdSet.has(resource.accountId)) {
-      return false;
-    }
-
-    // Filter by region
-    if (regionSet && !regionSet.has(resource.region)) {
-      return false;
-    }
-
-    // Filter by CPU threshold
-    if (query.cpuOver != null && (resource.metrics?.current?.cpu ?? 0) < query.cpuOver) {
-      return false;
-    }
-
-    // Filter by search text
-    if (searchText) {
-      const searchableText = [
+    if (query.text?.trim()) {
+      const searchText = query.text.toLowerCase();
+      const searchableFields = [
         resource.name,
         resource.platform,
         resource.ip ?? "",
-        resource.accountName,
+        resource.account,
         resource.region,
         resource.type,
-        ...Object.entries(resource.tags || {}).map(([key, value]) => `${key}:${value}`)
-      ]
-        .join(" ")
-        .toLowerCase();
+        ...Object.values(resource.tags || {}),
+      ];
 
-      if (!searchableText.includes(searchText)) {
+      if (!searchableFields.some(field => field.toLowerCase().includes(searchText))) {
         return false;
       }
     }
@@ -146,19 +121,11 @@ export function isDuplicateNotification(notification: NotificationItem): boolean
   const now = Date.now();
   const lastSeen = recentNotifications.get(key);
 
-  if (lastSeen && now - lastSeen < 5000) { // 5 seconds threshold
+  if (lastSeen && now - lastSeen < NOTIFICATION_SETTINGS.DUPLICATE_THRESHOLD) {
     return true;
   }
 
   recentNotifications.set(key, now);
-
-  // Clean up old entries
-  for (const [k, timestamp] of recentNotifications.entries()) {
-    if (now - timestamp > 5000) {
-      recentNotifications.delete(k);
-    }
-  }
-
   return false;
 }
 

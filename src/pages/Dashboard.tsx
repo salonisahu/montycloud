@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import { BarChart, LineChart, PieChart, DoughnutChart, PolarAreaChart, RadarChart, ScatterChart, BubbleChart } from "@/components/charts";
-import { useData } from "@/contexts/data";
+import { useData } from "@/hooks/useData";
 
 const Dashboard = () => {
   const { state } = useData();

@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useCallback, useState, useEffect } from "react";
 import { RefreshCw, Search } from "lucide-react";
-import { capitalize } from "lodash";
+import { capitalize, debounce } from "lodash";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { FilterDropdown } from "@/components/custom/FilterDropdown";
 
-import type { Resource, ResourceQuery, CloudMockData } from "@/types/services";
-import { SERVICE_CARDS, STATUS_OPTIONS, SAMPLE_CLOUD_DATA } from "@/constants/cloud";
+import type { Resource, ResourceQuery } from "@/types/services";
+import { SERVICE_CARDS, STATUS_OPTIONS, ACCOUNT_OPTIONS, REGION_OPTIONS } from "../constants/cloud";
+import { useData } from "@/hooks/useData";
 
-import { filterResources, getStatusChip, formatPercentage, formatCurrency, formatDate } from "@/lib/utils";
+import { getStatusChip, formatPercentage, formatCurrency, formatDate } from "@/lib/utils";
 
 const StatusChip: React.FC<{ status: string }> = ({ status }) => {
   const className = getStatusChip(status as "running" | "stopped" | "degraded" | "terminated" | "pending" | "maintenance");
@@ -46,25 +47,42 @@ const ServiceCard: React.FC<{
   </Card>
 );
 
-const FilterBar: React.FC<{
-  data: CloudMockData;
-  query: ResourceQuery;
-  setQuery: (query: ResourceQuery) => void;
-}> = ({ data, query, setQuery }) => {
-  const accounts = data.metadata.accounts;
-  const regions = data.metadata.regions;
-  const types = Array.from(new Set(data.resources.map((r) => r.type)));
+const FilterBar: React.FC = () => {
+  const { state, setResourceQuery, resetResourceQuery } = useData();
+  const { resources, resourceQuery } = state;
+
+  const [searchText, setSearchText] = useState(resourceQuery.text || "");
+
+  const types = useMemo(() => Array.from(new Set(resources.map((r) => r.type))), [resources]);
+
+  const debouncedSearch = useCallback(
+    debounce((text: string) => {
+      const newQuery = { ...resourceQuery, text: text || undefined };
+      setResourceQuery(newQuery);
+    }, 300),
+    [resourceQuery, setResourceQuery]
+  );
+
+  useEffect(() => {
+    debouncedSearch(searchText);
+  }, [searchText, debouncedSearch]);
+
+  useEffect(() => {
+    setSearchText(resourceQuery.text || "");
+  }, [resourceQuery.text]);
 
   const handleFilterChange = useCallback(
     (key: keyof ResourceQuery, value: string | string[] | number) => {
-      setQuery({ ...query, [key]: value });
+      const newQuery = { ...resourceQuery, [key]: value };
+      setResourceQuery(newQuery);
     },
-    [query, setQuery]
+    [resourceQuery, setResourceQuery]
   );
 
   const handleReset = useCallback(() => {
-    setQuery({});
-  }, [setQuery]);
+    setSearchText("");
+    resetResourceQuery();
+  }, [resetResourceQuery]);
 
   return (
     <Card>
@@ -75,7 +93,7 @@ const FilterBar: React.FC<{
       <CardContent className="grid gap-3 md:grid-cols-6">
         <div className="md:col-span-2">
           <InputGroup>
-            <InputGroupInput placeholder="Search..." value={query.text || ""} onChange={(e) => handleFilterChange("text", e.target.value)} />
+            <InputGroupInput placeholder="Search..." value={searchText} onChange={(e) => setSearchText(e.target.value)} />
             <InputGroupAddon>
               <Search />
             </InputGroupAddon>
@@ -84,28 +102,25 @@ const FilterBar: React.FC<{
         <FilterDropdown
           label="Status"
           options={STATUS_OPTIONS}
-          selectedValues={query.status || []}
+          selectedValues={resourceQuery.status || []}
           onSelectionChange={(values) => handleFilterChange("status", values)}
         />
         <FilterDropdown
           label="Type"
           options={types}
-          selectedValues={query.type || []}
+          selectedValues={resourceQuery.type || []}
           onSelectionChange={(values) => handleFilterChange("type", values)}
         />
         <FilterDropdown
           label="Account"
-          options={accounts.map((a) => a.accountName)}
-          selectedValues={query.accountId || []}
-          onSelectionChange={(values) => {
-            const accountIds = values.map((name) => accounts.find((a) => a.accountName === name)?.accountId).filter(Boolean) as string[];
-            handleFilterChange("accountId", accountIds);
-          }}
+          options={ACCOUNT_OPTIONS}
+          selectedValues={resourceQuery.account || []}
+          onSelectionChange={(values) => handleFilterChange("account", values)}
         />
         <FilterDropdown
           label="Region"
-          options={regions}
-          selectedValues={query.region || []}
+          options={REGION_OPTIONS}
+          selectedValues={resourceQuery.region || []}
           onSelectionChange={(values) => handleFilterChange("region", values)}
         />
         <div className="flex gap-2">
@@ -157,7 +172,7 @@ const ResourcesTable: React.FC<{ resources: Resource[] }> = ({ resources }) => {
         cell: ({ row }) => <StatusChip status={row.original.status} />,
       },
       {
-        accessorKey: "accountName",
+        accessorKey: "account",
         header: ({ column }) => (
           <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
             Account
@@ -180,28 +195,19 @@ const ResourcesTable: React.FC<{ resources: Resource[] }> = ({ resources }) => {
         cell: ({ row }) => row.original.tags?.env || "-",
       },
       {
-        accessorKey: "metrics.current.cpu",
+        accessorKey: "cpu",
         header: () => <div className="text-right">CPU</div>,
-        cell: ({ row }) => {
-          const cpu = row.original.metrics?.current?.cpu ?? 0;
-          return <div className="text-right font-medium">{formatPercentage(cpu)}</div>;
-        },
+        cell: ({ row }) => <div className="text-right font-medium">{formatPercentage(row.original.cpu)}</div>,
       },
       {
-        accessorKey: "metrics.current.memory",
+        accessorKey: "memory",
         header: () => <div className="text-right">Memory</div>,
-        cell: ({ row }) => {
-          const memory = row.original.metrics?.current?.memory ?? 0;
-          return <div className="text-right font-medium">{formatPercentage(memory)}</div>;
-        },
+        cell: ({ row }) => <div className="text-right font-medium">{formatPercentage(row.original.memory)}</div>,
       },
       {
-        accessorKey: "cost.hourly",
+        accessorKey: "cost",
         header: () => <div className="text-right">Hourly Cost</div>,
-        cell: ({ row }) => {
-          const cost = row.original.cost?.hourly ?? 0;
-          return <div className="text-right font-medium">{formatCurrency(cost)}</div>;
-        },
+        cell: ({ row }) => <div className="text-right font-medium">{formatCurrency(row.original.cost)}</div>,
       },
       {
         accessorKey: "lastChecked",
@@ -216,7 +222,7 @@ const ResourcesTable: React.FC<{ resources: Resource[] }> = ({ resources }) => {
     <Card>
       <CardHeader>
         <CardTitle className="text-base">Resources</CardTitle>
-        <CardDescription>Inventory with live metrics</CardDescription>
+        <CardDescription>Inventory with metrics</CardDescription>
       </CardHeader>
       <CardContent>
         <DataTable columns={columns} data={resources} showFilters={false} showPagination={true} showColumnVisibility={true} />
@@ -226,10 +232,8 @@ const ResourcesTable: React.FC<{ resources: Resource[] }> = ({ resources }) => {
 };
 
 const Services: React.FC = () => {
-  const [data] = useState<CloudMockData>(SAMPLE_CLOUD_DATA);
-  const [query, setQuery] = useState<ResourceQuery>({});
-
-  const filteredResources = useMemo(() => filterResources(data.resources, query), [data.resources, query]);
+  const { state } = useData();
+  const { filteredResources } = state;
 
   return (
     <div className="space-y-6 bg-background min-h-screen">
@@ -238,11 +242,11 @@ const Services: React.FC = () => {
         <p className="text-muted-foreground">Searchable, filterable cloud inventory with alerts and trends</p>
       </div>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-lg">
-        {SERVICE_CARDS.map((card, index) => (
+        {SERVICE_CARDS.map((card: any, index: number) => (
           <ServiceCard key={`${card.title}-${index}`} title={card.title} desc={card.desc} active={card.active} status={card.status} />
         ))}
       </div>
-      <FilterBar data={data} query={query} setQuery={setQuery} />
+      <FilterBar />
       <ResourcesTable resources={filteredResources} />
     </div>
   );

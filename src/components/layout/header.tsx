@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/theme";
-import { useData } from "@/contexts/data";
+import { useData } from "@/hooks/useData";
 import { formatNotificationTime, getNotificationLevelColor } from "@/lib/utils";
 
 interface HeaderProps {
