@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import type { Resource, ResourceQuery, Status } from "@/types/services";
+import type { NotificationItem } from "@/types/notifications";
+import { NOTIFICATION_TEMPLATES, SERVICE_TARGETS } from "@/constants/notifications";
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
@@ -114,3 +116,74 @@ export const formatPercentage = (value: number): string => {
 export const formatDate = (dateString: string): string => {
   return new Date(dateString).toLocaleString();
 };
+
+export function randInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+export function pick<T>(arr: readonly T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+export function makeNotification(): NotificationItem {
+  const template = pick(NOTIFICATION_TEMPLATES);
+  const target = `on ${pick(SERVICE_TARGETS)}-${randInt(1000, 1024)}`;
+
+  return {
+    id: crypto.randomUUID(),
+    ts: Date.now(),
+    level: template.type,
+    title: template.title,
+    message: `${template.issue} ${target}`,
+  };
+}
+
+const recentNotifications = new Map<string, number>();
+
+export function isDuplicateNotification(notification: NotificationItem): boolean {
+  const key = `${notification.level}-${notification.title}`;
+  const now = Date.now();
+  const lastSeen = recentNotifications.get(key);
+
+  if (lastSeen && now - lastSeen < 5000) { // 5 seconds threshold
+    return true;
+  }
+
+  recentNotifications.set(key, now);
+
+  // Clean up old entries
+  for (const [k, timestamp] of recentNotifications.entries()) {
+    if (now - timestamp > 5000) {
+      recentNotifications.delete(k);
+    }
+  }
+
+  return false;
+}
+
+export function formatNotificationTime(timestamp: number): string {
+  const now = Date.now();
+  const diff = now - timestamp;
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  return `${days}d ago`;
+}
+
+export function getNotificationLevelColor(level: string): string {
+  switch (level) {
+    case "info":
+      return "bg-blue-500";
+    case "warning":
+      return "bg-yellow-500";
+    case "error":
+      return "bg-red-500";
+    default:
+      return "bg-gray-500";
+  }
+}

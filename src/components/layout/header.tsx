@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/theme";
 import { useData } from "@/contexts/data";
+import { formatNotificationTime, getNotificationLevelColor } from "@/lib/utils";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -37,34 +38,6 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
   // Handle clear all notifications
   const handleClearAll = () => {
     clearAllNotifications();
-  };
-
-  // Format notification time
-  const formatNotificationTime = (timestamp: number) => {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-
-    if (minutes < 1) return "Just now";
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  };
-
-  // Get notification level color
-  const getNotificationLevelColor = (level: string) => {
-    switch (level) {
-      case "info":
-        return "bg-blue-500";
-      case "warning":
-        return "bg-yellow-500";
-      case "error":
-        return "bg-red-500";
-      default:
-        return "bg-gray-500";
-    }
   };
 
   return (
