@@ -1,5 +1,6 @@
-import React, { useMemo, useCallback, useState, useEffect } from "react";
-import { RefreshCw, Search } from "lucide-react";
+import * as React from "react";
+import { useMemo, useCallback, useState, useEffect } from "react";
+import { RefreshCw, Search, ArrowUpDown } from "lucide-react";
 import { capitalize, debounce } from "lodash";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -7,13 +8,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/input-group";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
 import { FilterDropdown } from "@/components/custom/FilterDropdown";
 
 import type { Resource, ResourceQuery } from "@/types/services";
-import { SERVICE_CARDS, STATUS_OPTIONS, ACCOUNT_OPTIONS, REGION_OPTIONS } from "../constants/cloud";
+import { SERVICE_CARDS, STATUS_OPTIONS, ACCOUNT_OPTIONS, REGION_OPTIONS } from "@/constants/cloud";
 import { useData } from "@/hooks/useData";
-
 import { getStatusChip, formatPercentage, formatCurrency, formatDate } from "@/lib/utils";
 
 const StatusChip: React.FC<{ status: string }> = ({ status }) => {
