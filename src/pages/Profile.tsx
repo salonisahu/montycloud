@@ -2,17 +2,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, MapPin, Shield, Key } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+import { DeleteConfirmation } from "@/components/modals/DeleteConfirmation";
 
 const Profile = () => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const handleOpenDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
   return (
     <div className="space-y-6 bg-background min-h-screen">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-foreground">Profile</h1>
         <p className="text-muted-foreground">Manage your account information and preferences</p>
       </div>
-
-      {/* Profile Header */}
       <Card className="bg-card">
         <CardHeader>
           <div className="flex items-center space-x-4">
@@ -31,8 +41,6 @@ const Profile = () => {
           </div>
         </CardHeader>
       </Card>
-
-      {/* Personal Information */}
       <Card className="bg-card">
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
@@ -76,38 +84,6 @@ const Profile = () => {
           </div>
         </CardContent>
       </Card>
-
-      {/* Security Settings */}
-      <Card className="bg-secondary">
-        <CardHeader>
-          <CardTitle>Security Settings</CardTitle>
-          <CardDescription>Manage your account security and authentication</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Shield className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Two-Factor Authentication</p>
-                <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
-              </div>
-            </div>
-            <Button variant="outline">Enable</Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Key className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Change Password</p>
-                <p className="text-sm text-muted-foreground">Update your account password</p>
-              </div>
-            </div>
-            <Button variant="outline">Change</Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Account Actions */}
       <Card>
         <CardHeader>
           <CardTitle>Account Actions</CardTitle>
@@ -119,10 +95,13 @@ const Profile = () => {
               <p className="font-medium text-destructive">Delete Account</p>
               <p className="text-sm text-muted-foreground">Permanently delete your account and all data</p>
             </div>
-            <Button variant="destructive">Delete</Button>
+            <Button variant="destructive" onClick={handleOpenDeleteModal}>
+              Delete
+            </Button>
           </div>
         </CardContent>
       </Card>
+      <DeleteConfirmation isOpen={isDeleteModalOpen} onClose={handleCloseDeleteModal} />
     </div>
   );
 };

@@ -105,7 +105,14 @@ const Monitoring = () => {
               size="sm"
               className="btn-success"
               onClick={() => {
-                toast.success("Dashboard data refreshed!");
+                toast.success("Event has been created", {
+                  description: "Sunday, December 03, 2023 at 9:00 AM",
+                  action: (
+                    <Button variant="outline" onClick={() => console.log("Action!")}>
+                      Action
+                    </Button>
+                  ),
+                });
               }}
             >
               <RefreshCw className="h-4 w-4 mr-2" />
