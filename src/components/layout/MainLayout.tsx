@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Header } from "./Header";
-import { Sidebar } from "./sidebar";
+import { Sidebar } from "./Sidebar";
 
 interface LayoutWrapperProps {
   children: React.ReactNode;

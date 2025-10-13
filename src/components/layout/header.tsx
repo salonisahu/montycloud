@@ -13,15 +13,59 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/theme";
+import { useData } from "@/contexts/data";
+
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 export const Header = ({ onMenuClick }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
+  const { state, markAllAsRead, clearAllNotifications } = useData();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [notificationCount, setNotificationCount] = useState(3);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  // Get notification count and list from data provider
+  const notificationCount = state.notifications.length;
+  const notifications = state.notifications;
+
+  // Handle mark all as read
+  const handleMarkAllAsRead = () => {
+    markAllAsRead();
+  };
+
+  // Handle clear all notifications
+  const handleClearAll = () => {
+    clearAllNotifications();
+  };
+
+  // Format notification time
+  const formatNotificationTime = (timestamp: number) => {
+    const now = Date.now();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+
+    if (minutes < 1) return "Just now";
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+  };
+
+  // Get notification level color
+  const getNotificationLevelColor = (level: string) => {
+    switch (level) {
+      case "info":
+        return "bg-blue-500";
+      case "warning":
+        return "bg-yellow-500";
+      case "error":
+        return "bg-red-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -45,7 +89,6 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
         {/* Right side - Actions and Profile */}
         <div className="flex items-center gap-3">
           {/* Search and Notifications */}
-
           <Button variant="ghost" size="icon" className="relative" onClick={() => setNotificationsOpen(true)}>
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
@@ -118,64 +161,50 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
               <Bell className="h-5 w-5" />
               Notifications
             </SheetTitle>
-            <SheetDescription>You have {notificationCount} unread notifications</SheetDescription>
+            <SheetDescription>
+              {notificationCount > 0 ? `You have ${notificationCount} notification${notificationCount === 1 ? "" : "s"}` : "No notifications"}
+            </SheetDescription>
           </SheetHeader>
 
           <div className="flex-1 overflow-y-auto">
             <div className="space-y-4 p-4">
-              {/* Sample Notifications */}
-              <div className="space-y-3">
-                <div className="flex items-start gap-3 p-3 rounded-lg border bg-card">
-                  <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">System Update</p>
-                    <p className="text-xs text-muted-foreground">Your system has been updated to version 2.1.0</p>
-                    <p className="text-xs text-muted-foreground mt-1">2 minutes ago</p>
-                  </div>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0">
-                    <Check className="h-3 w-3" />
-                  </Button>
+              {notifications.length > 0 ? (
+                <div className="space-y-3">
+                  {notifications.map((notification) => (
+                    <div key={notification.id} className="flex items-start gap-3 p-3 rounded-lg border bg-card">
+                      <div className={`w-2 h-2 rounded-full ${getNotificationLevelColor(notification.level)} mt-2 flex-shrink-0`} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium">{notification.title}</p>
+                        <p className="text-xs text-muted-foreground">{notification.message}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{formatNotificationTime(notification.ts)}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <Bell className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                  <p className="text-sm text-muted-foreground">No notifications yet</p>
+                  <p className="text-xs text-muted-foreground mt-1">You'll see notifications here when they arrive</p>
+                </div>
+              )}
+            </div>
+          </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg border bg-card">
-                  <div className="w-2 h-2 rounded-full bg-green-500 mt-2 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">Backup Complete</p>
-                    <p className="text-xs text-muted-foreground">Your data backup has been completed successfully</p>
-                    <p className="text-xs text-muted-foreground mt-1">1 hour ago</p>
-                  </div>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0">
-                    <Check className="h-3 w-3" />
-                  </Button>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-lg border bg-card">
-                  <div className="w-2 h-2 rounded-full bg-yellow-500 mt-2 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">Security Alert</p>
-                    <p className="text-xs text-muted-foreground">Unusual login activity detected from a new device</p>
-                    <p className="text-xs text-muted-foreground mt-1">3 hours ago</p>
-                  </div>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0">
-                    <Check className="h-3 w-3" />
-                  </Button>
-                </div>
+          {notifications.length > 0 && (
+            <div className="border-t p-4">
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1" onClick={handleMarkAllAsRead}>
+                  <Check className="h-4 w-4 mr-2" />
+                  Mark All Read
+                </Button>
+                <Button variant="destructive" size="sm" className="flex-1" onClick={handleClearAll}>
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Clear All
+                </Button>
               </div>
             </div>
-          </div>
-
-          <div className="border-t p-4">
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="flex-1" onClick={() => setNotificationCount(0)}>
-                <Check className="h-4 w-4 mr-2" />
-                Mark All Read
-              </Button>
-              <Button variant="destructive" size="sm" className="flex-1">
-                <Trash2 className="h-4 w-4 mr-2" />
-                Clear All
-              </Button>
-            </div>
-          </div>
+          )}
         </SheetContent>
       </Sheet>
     </header>

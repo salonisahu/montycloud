@@ -6,22 +6,30 @@ import Dashboard from "@/pages/Dashboard";
 import Services from "@/pages/Services";
 import Monitoring from "@/pages/Monitoring";
 import Profile from "@/pages/Profile";
+import Test from "@/pages/Test";
+import { ThemeProvider } from "./contexts/theme";
+import { DataProvider } from "./contexts/data";
 
 function App() {
   return (
-    <TooltipProvider>
-      <Router>
-        <LayoutWrapper>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/monitoring" element={<Monitoring />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </LayoutWrapper>
-      </Router>
-      <Toaster />
-    </TooltipProvider>
+    <DataProvider>
+      <ThemeProvider defaultTheme="light">
+        <TooltipProvider>
+          <Router>
+            <LayoutWrapper>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/monitoring" element={<Monitoring />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/test" element={<Test />} />
+              </Routes>
+            </LayoutWrapper>
+          </Router>
+          <Toaster />
+        </TooltipProvider>
+      </ThemeProvider>
+    </DataProvider>
   );
 }
 
