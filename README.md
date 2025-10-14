@@ -2,6 +2,12 @@
 
 A modern, responsive cloud operations dashboard built with React, TypeScript, and Vite. This application provides real-time monitoring, resource management, and notification systems for cloud infrastructure.
 
+## 🌐 Live Demo
+
+**🚀 [View Live Application](https://classy-brioche-2cf5d3.netlify.app/)**
+
+Experience the full functionality of MontyCloud with real-time data, interactive charts, and responsive design.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
