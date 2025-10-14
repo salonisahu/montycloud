@@ -1,4 +1,5 @@
 import React from "react";
+import type { ErrorInfo } from "react";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
 import type { FallbackProps } from "react-error-boundary";
 import { AlertTriangle, RefreshCw } from "lucide-react";
@@ -17,7 +18,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) =
           <CardDescription>An unexpected error occurred. Please try refreshing the page.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {process.env.NODE_ENV === "development" && (
+          {import.meta.env.DEV && (
             <div className="rounded-lg bg-muted p-3">
               <p className="text-sm text-muted-foreground">
                 <strong>Error:</strong> {error?.message}
@@ -47,9 +48,11 @@ interface AppErrorBoundaryProps {
 }
 
 export const AppErrorBoundary: React.FC<AppErrorBoundaryProps> = ({ children }) => {
-  const handleError = (error: Error, errorInfo: { componentStack: string }) => {
-    console.error("App Error:", error);
-    console.error("Component Stack:", errorInfo.componentStack);
+  const handleError = (error: Error, info: ErrorInfo) => {
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.error(error, info.componentStack ?? "");
+    }
   };
 
   return (
