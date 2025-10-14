@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useMemo, useCallback, useState, useEffect } from "react";
+import { useMemo, useCallback } from "react";
 import { RefreshCw, Search, ArrowUpDown } from "lucide-react";
-import { capitalize, debounce } from "lodash";
+import { capitalize } from "lodash";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,36 +50,20 @@ const FilterBar: React.FC = () => {
   const { state, setResourceQuery, resetResourceQuery } = useData();
   const { resources, resourceQuery } = state;
 
-  const [searchText, setSearchText] = useState(resourceQuery.text || "");
-
   const types = useMemo(() => Array.from(new Set(resources.map((r) => r.type))), [resources]);
-
-  const debouncedSearch = useCallback(
-    debounce((text: string) => {
-      const newQuery = { ...resourceQuery, text: text || undefined };
-      setResourceQuery(newQuery);
-    }, 300),
-    [resourceQuery, setResourceQuery]
-  );
-
-  useEffect(() => {
-    debouncedSearch(searchText);
-  }, [searchText, debouncedSearch]);
-
-  useEffect(() => {
-    setSearchText(resourceQuery.text || "");
-  }, [resourceQuery.text]);
 
   const handleFilterChange = useCallback(
     (key: keyof ResourceQuery, value: string | string[] | number) => {
-      const newQuery = { ...resourceQuery, [key]: value };
+      const newQuery = {
+        ...resourceQuery,
+        [key]: key === "text" ? value || undefined : value,
+      };
       setResourceQuery(newQuery);
     },
     [resourceQuery, setResourceQuery]
   );
 
   const handleReset = useCallback(() => {
-    setSearchText("");
     resetResourceQuery();
   }, [resetResourceQuery]);
 
@@ -92,7 +76,7 @@ const FilterBar: React.FC = () => {
       <CardContent className="grid gap-3 md:grid-cols-6">
         <div className="md:col-span-2">
           <InputGroup>
-            <InputGroupInput placeholder="Search..." value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+            <InputGroupInput placeholder="Search..." value={resourceQuery.text || ""} onChange={(e) => handleFilterChange("text", e.target.value)} />
             <InputGroupAddon>
               <Search />
             </InputGroupAddon>

@@ -53,7 +53,7 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
 
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <img src="/src/assets/full-color-favicon.svg" alt="MontyCloud Logo" className="h-8 w-8" />
+            <img src="/full-color-favicon.svg" alt="MontyCloud Logo" className="h-8 w-8" />
             <div className="flex flex-col">
               <span className="text-xl font-extralight text-foreground">MontyCloud</span>
             </div>
@@ -101,7 +101,7 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/avatars/01.png" alt="Profile" />
+                  <AvatarImage src="/avatars/01.svg" alt="Profile" />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
               </Button>

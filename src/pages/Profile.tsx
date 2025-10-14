@@ -27,7 +27,7 @@ const Profile = () => {
         <CardHeader>
           <div className="flex items-center space-x-4">
             <Avatar className="h-20 w-20">
-              <AvatarImage src="/avatars/01.png" alt="Profile" />
+              <AvatarImage src="/avatars/01.svg" alt="Profile" />
               <AvatarFallback className="text-lg">JD</AvatarFallback>
             </Avatar>
             <div className="space-y-1">

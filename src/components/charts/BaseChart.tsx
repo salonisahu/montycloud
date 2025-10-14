@@ -10,11 +10,44 @@ import {
   Legend,
   ArcElement,
   RadialLinearScale,
+  Filler,
+  LineController,
+  BarController,
+  PieController,
+  DoughnutController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  BubbleController,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale);
+// Register all Chart.js components and controllers
+ChartJS.register(
+  // Controllers
+  LineController,
+  BarController,
+  PieController,
+  DoughnutController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  BubbleController,
+  // Elements
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Filler,
+  // Scales
+  CategoryScale,
+  LinearScale,
+  RadialLinearScale,
+  // Plugins
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface BaseChartProps {
   type: "bar" | "line" | "pie" | "doughnut" | "polarArea" | "radar" | "scatter" | "bubble";

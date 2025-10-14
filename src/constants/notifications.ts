@@ -66,7 +66,7 @@ export const NOTIFICATION_TEMPLATES: readonly NotificationTemplate[] = [
 export const NOTIFICATION_SETTINGS = {
     DUPLICATE_THRESHOLD: 5000,
     MAX_NOTIFICATIONS: 50,
-    GENERATION_INTERVAL: 5000,
+    GENERATION_INTERVAL: 8000,
 } as const;
 
 export const SERVICE_TARGETS = ["srv", "worker", "db", "cache"] as const;
